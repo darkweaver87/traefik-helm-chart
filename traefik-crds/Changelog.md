@@ -7,6 +7,7 @@
 * fix: remove dependency while not published
 * fix: CI
 * fix: CI
+* fix(crds): test
 
 ### Default value changes
 
