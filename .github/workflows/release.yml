@@ -70,7 +70,7 @@ jobs:
         uses: requarks/changelog-action@v1
         with:
           token: ${{ github.token }}
-          tag: ${{ github.ref_name }}
+          tag: ${{ steps.tag_version.outputs.new_tag }}
           excludeScopes: crds,crds-release
         if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
 
@@ -167,7 +167,7 @@ jobs:
         uses: requarks/changelog-action@v1
         with:
           token: ${{ github.token }}
-          tag: ${{ github.ref_name }}
+          tag: ${{ steps.tag_version.outputs.new_tag }}
           excludeScopes: traefik,traefik-release
         if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
 
