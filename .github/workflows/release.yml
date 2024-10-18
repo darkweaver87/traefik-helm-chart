@@ -7,12 +7,14 @@ on:
 
 env:
   tag_prefix: v
+  crds_tag_prefix: crds_v
 
 jobs:
-  test:
-    uses: "traefik/traefik-helm-chart/.github/workflows/test.yml@master"
-  release:
-    needs: test
+  # test:
+  #   uses: "darkweaver87/traefik-helm-chart/.github/workflows/test.yml@master"
+
+  traefik:
+    # needs: test
     runs-on: ubuntu-latest
     steps:
 
@@ -27,7 +29,7 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git config --global --add safe.directory /charts
 
-      - name: Copy LICENSE and README.md for packaging
+      - name: Copy LICENSE, EXAMPLES.md and README.md for packaging
         run: |
           cp ./README.md ./traefik/README.md
           cp ./EXAMPLES.md ./traefik/EXAMPLES.md
@@ -38,7 +40,7 @@ jobs:
           kustomize build traefik/crds > traefik.yaml
           helm template traefik ./traefik -n traefik >> traefik.yaml
 
-      - name: Get chart verison
+      - name: Get chart version
         id: chart_version
         run: |
           echo "CHART_VERSION=$(cat traefik/Chart.yaml | awk -F"[ ',]+" '/version:/{print $2}')" >> $GITHUB_OUTPUT
@@ -46,9 +48,9 @@ jobs:
       - name: Check if tag exists
         id: tag_exists
         run: |
-          TAG_EXISTS=true
-          if ! [ $(git tag -l "${{ env.tag_prefix }}${{ steps.chart_version.outputs.CHART_VERSION }}") ]; then
-              TAG_EXISTS=false
+          TAG_EXISTS=false
+          if [ $(git tag -l | grep "${{ env.tag_prefix }}${{ steps.chart_version.outputs.CHART_VERSION }}" > /dev/null) ]; then
+              TAG_EXISTS=true
           fi
           echo TAG_EXISTS=$TAG_EXISTS >> $GITHUB_OUTPUT
 
@@ -71,13 +73,19 @@ jobs:
           artifacts: "traefik.yaml"
         if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
 
+      # avoid helm-gh-pages to push both charts
+      - name: Delete traefik-crds chart
+        run: |
+          rm -rf traefik-crds
+        if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
+
       - name: Publish Helm chart
         uses: stefanprodan/helm-gh-pages@master
         with:
           token: ${{ secrets.CHARTS_TOKEN }}
           charts_dir: .
-          charts_url: https://traefik.github.io/charts
-          owner: traefik
+          charts_url: https://darkweaver87.github.io/traefik-helm-chart
+          owner: darkweaver87
           repository: charts
           branch: master
           target_dir: traefik
@@ -90,10 +98,10 @@ jobs:
         uses: appany/helm-oci-chart-releaser@v0.4.2
         with:
           name: traefik
-          repository: traefik/helm
+          repository: darkweaver87/helm
           tag: ${{ steps.chart_version.outputs.CHART_VERSION }}
           path: ./traefik
           registry: ghcr.io
-          registry_username: traefiker
+          registry_username: darkweaver87
           registry_password: ${{ secrets.GHCR_TOKEN }}
         if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
