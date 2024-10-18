@@ -1,6 +1,16 @@
 # Change Log
 
-## Next Release  ![AppVersion: v3.1.6](https://img.shields.io/static/v1?label=AppVersion&message=v3.1.6&color=success&logo=) ![Kubernetes: >=1.22.0-0](https://img.shields.io/static/v1?label=Kubernetes&message=%3E%3D1.22.0-0&color=informational&logo=kubernetes) ![Helm: v3](https://img.shields.io/static/v1?label=Helm&message=v3&color=informational&logo=helm)
+## 34.0.0  ![AppVersion: v3.1.6](https://img.shields.io/static/v1?label=AppVersion&message=v3.1.6&color=success&logo=) ![Kubernetes: >=1.22.0-0](https://img.shields.io/static/v1?label=Kubernetes&message=%3E%3D1.22.0-0&color=informational&logo=kubernetes) ![Helm: v3](https://img.shields.io/static/v1?label=Helm&message=v3&color=informational&logo=helm)
+
+**Release date:** 2024-10-18
+
+* fix: test
+* chore(release): 🚀 publish v34.0.0
+
+
+## 33.0.0  ![AppVersion: v3.1.6](https://img.shields.io/static/v1?label=AppVersion&message=v3.1.6&color=success&logo=) ![Kubernetes: >=1.22.0-0](https://img.shields.io/static/v1?label=Kubernetes&message=%3E%3D1.22.0-0&color=informational&logo=kubernetes) ![Helm: v3](https://img.shields.io/static/v1?label=Helm&message=v3&color=informational&logo=helm)
+
+**Release date:** 2024-10-18
 
 * fix: use correct children indentation for logs.access.filters
 * fix: update CI
@@ -10,8 +20,10 @@
 * fix: CI
 * fix(schema): :bug: targetPort can also be a string
 * fix(certificateResolvers)!: :boom: :bug: use same syntax in Chart and in Traefik
+* fix(Kubernetes Ingress)!: :boom: :sparkles: enable publishedService by default
 * fix(Gateway API): :bug: add missing required RBAC for v3.2 with experimental Channel
 * fix(Env Variables)!: allow extending env without overwrite
+* feat: test
 * feat: :package: add separated chart for CRDs
 * feat(deps): update traefik docker tag to v3.1.6
 * feat(Gateway API): :sparkles: add infrastructure in the values
@@ -22,7 +34,7 @@
 
 ```diff
 diff --git a/traefik/values.yaml b/traefik/values.yaml
-index 73371f3..b5ce546 100644
+index 73371f3..a8b4fd9 100644
 --- a/traefik/values.yaml
 +++ b/traefik/values.yaml
 @@ -138,6 +138,8 @@ gateway:
@@ -34,7 +46,23 @@ index 73371f3..b5ce546 100644
    # -- Define listeners
    listeners:
      web:
-@@ -335,8 +337,8 @@ logs:
+@@ -283,10 +285,11 @@ providers:  # @schema additionalProperties: false
+     namespaces: []
+     # IP used for Kubernetes Ingress endpoints
+     publishedService:
+-      enabled: false
+-      # Published Kubernetes Service to copy status from. Format: namespace/servicename
+-      # By default this Traefik service
+-      # pathOverride: ""
++      # -- Enable [publishedService](https://doc.traefik.io/traefik/providers/kubernetes-ingress/#publishedservice)
++      enabled: true
++      # -- Override path of Kubernetes Service used to copy status from. Format: namespace/servicename.
++      # Default to Service deployed with this Chart.
++      pathOverride: ""
+     # -- Defines whether to use Native Kubernetes load-balancing mode by default.
+     nativeLBByDefault: false
+ 
+@@ -335,8 +338,8 @@ logs:
      # -- Set [logs format](https://doc.traefik.io/traefik/observability/logs/#format)
      format:  # @schema enum:["common", "json", null]; type:[string, null]; default: "common"
      # By default, the level is set to INFO.
@@ -45,7 +73,7 @@ index 73371f3..b5ce546 100644
      # -- To write the logs into a log file, use the filePath option.
      filePath: ""
      # -- When set to true and format is common, it disables the colorized output.
-@@ -350,10 +352,13 @@ logs:
+@@ -350,10 +353,13 @@ logs:
      # -- Set [bufferingSize](https://doc.traefik.io/traefik/observability/access-logs/#bufferingsize)
      bufferingSize:  # @schema type:[integer, null]
      # -- Set [filtering](https://docs.traefik.io/observability/access-logs/#filtering)
@@ -63,7 +91,7 @@ index 73371f3..b5ce546 100644
      # -- Enables accessLogs for internal resources. Default: false.
      addInternals: false
      fields:
-@@ -566,17 +571,9 @@ additionalArguments: []
+@@ -566,17 +572,9 @@ additionalArguments: []
  #  - "--providers.kubernetesingress.ingressclass=traefik-internal"
  #  - "--log.level=DEBUG"
  
@@ -83,7 +111,7 @@ index 73371f3..b5ce546 100644
  
  # -- Environment variables to be passed to Traefik's binary from configMaps or secrets
  envFrom: []
-@@ -614,7 +611,7 @@ ports:
+@@ -614,7 +612,7 @@ ports:
        default: true
      exposedPort: 80
      ## -- Different target traefik port on the cluster, useful for IP type LB
@@ -92,7 +120,7 @@ index 73371f3..b5ce546 100644
      # The port protocol (TCP/UDP)
      protocol: TCP
      # -- See [upstream documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport)
-@@ -653,7 +650,7 @@ ports:
+@@ -653,7 +651,7 @@ ports:
        default: true
      exposedPort: 443
      ## -- Different target traefik port on the cluster, useful for IP type LB
@@ -101,7 +129,7 @@ index 73371f3..b5ce546 100644
      ## -- The port protocol (TCP/UDP)
      protocol: TCP
      # -- See [upstream documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport)
-@@ -780,8 +777,8 @@ autoscaling:
+@@ -780,8 +778,8 @@ autoscaling:
  
  persistence:
    # -- Enable persistence using Persistent Volume Claims
@@ -112,7 +140,7 @@ index 73371f3..b5ce546 100644
    enabled: false
    name: data
    existingClaim: ""
-@@ -797,7 +794,7 @@ persistence:
+@@ -797,7 +795,7 @@ persistence:
  # -- Certificates resolvers configuration.
  # Ref: https://doc.traefik.io/traefik/https/acme/#certificate-resolvers
  # See EXAMPLES.md for more details.
@@ -121,7 +149,7 @@ index 73371f3..b5ce546 100644
  
  # -- If hostNetwork is true, runs traefik in the host network namespace
  # To prevent unschedulabel pods due to port collisions, if hostNetwork=true
-@@ -860,7 +857,7 @@ topologySpreadConstraints: []
+@@ -860,7 +858,7 @@ topologySpreadConstraints: []
  # on nodes where no other traefik pods are scheduled.
  #  - labelSelector:
  #      matchLabels:
@@ -130,7 +158,7 @@ index 73371f3..b5ce546 100644
  #    maxSkew: 1
  #    topologyKey: kubernetes.io/hostname
  #    whenUnsatisfiable: DoNotSchedule
-@@ -942,3 +939,11 @@ hub:
+@@ -942,3 +940,11 @@ hub:
        insecureSkipVerify: false
    # Enable export of errors logs to the platform. Default: true.
    sendlogs:  # @schema type:[boolean, null]
