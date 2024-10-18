@@ -65,12 +65,21 @@ jobs:
           tag_prefix: ${{ env.tag_prefix }}
         if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
 
+      - name: Update CHANGELOG
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ github.token }}
+          tag: ${{ github.ref_name }}
+          excludeScopes: crds,crds-release
+        if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
+
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
+          body: ${{ steps.changelog.outputs.changes }}
           prerelease: ${{ contains(steps.chart_version.outputs.CHART_VERSION, '-') }}
           artifacts: "traefik.yaml"
         if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
@@ -153,12 +162,21 @@ jobs:
           tag_prefix: ${{ env.crds_tag_prefix }}
         if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
 
+      - name: Update CHANGELOG
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ github.token }}
+          tag: ${{ github.ref_name }}
+          excludeScopes: traefik,traefik-release
+        if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
+
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
+          body: ${{ steps.changelog.outputs.changes }}
           prerelease: ${{ contains(steps.chart_version.outputs.CHART_VERSION, '-') }}
         if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
 

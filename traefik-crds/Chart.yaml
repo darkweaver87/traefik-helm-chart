@@ -22,7 +22,6 @@ maintainers:
   - name: jnoordsij
 icon: https://raw.githubusercontent.com/traefik/traefik/v2.3/docs/content/assets/img/traefik.logo.png
 annotations:
-  artifacthub.io/changes:
   artifacthub.io/changes: |
     - "fix: use Files.Glob"
     - "fix: schemas"
