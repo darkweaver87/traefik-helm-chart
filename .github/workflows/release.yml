@@ -13,109 +13,109 @@ jobs:
   # test:
   #   uses: "darkweaver87/traefik-helm-chart/.github/workflows/test.yml@master"
 
-  traefik:
-    # needs: test
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Configure Git
-        run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git config --global --add safe.directory /charts
-
-      - name: Copy LICENSE, EXAMPLES.md and README.md for packaging
-        run: |
-          cp ./README.md ./traefik/README.md
-          cp ./EXAMPLES.md ./traefik/EXAMPLES.md
-          cp ./LICENSE ./traefik/LICENSE
-
-      - name: Generate default static install
-        run: |
-          kustomize build traefik-crds > traefik.yaml
-          helm template traefik ./traefik -n traefik >> traefik.yaml
-
-      - name: Get chart version
-        id: chart_version
-        run: |
-          echo "CHART_VERSION=$(cat traefik/Chart.yaml | awk -F"[ ',]+" '/version:/{print $2}')" >> $GITHUB_OUTPUT
-
-      - name: Check if tag exists
-        id: tag_exists
-        run: |
-          TAG_EXISTS=false
-          if git tag -l | grep "${{ env.tag_prefix }}${{ steps.chart_version.outputs.CHART_VERSION }}" > /dev/null ; then
-              TAG_EXISTS=true
-          fi
-          git tag -l
-          echo TAG_EXISTS=$TAG_EXISTS
-          echo TAG_EXISTS=$TAG_EXISTS >> $GITHUB_OUTPUT
-
-      - name: Tag release
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ steps.chart_version.outputs.CHART_VERSION }}
-          tag_prefix: ${{ env.tag_prefix }}
-        if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
-
-      - name: Update CHANGELOG
-        id: changelog
-        uses: requarks/changelog-action@v1
-        with:
-          token: ${{ github.token }}
-          tag: ${{ github.ref_name }}
-          excludeScopes: crds,crds-release
-        if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
-
-      - name: Create release
-        uses: ncipollo/release-action@v1
-        with:
-          tag: ${{ steps.tag_version.outputs.new_tag }}
-          name: ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.changelog.outputs.changes }}
-          prerelease: ${{ contains(steps.chart_version.outputs.CHART_VERSION, '-') }}
-          artifacts: "traefik.yaml"
-        if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
-
-      # avoid helm-gh-pages to push both charts
-      - name: Delete traefik-crds chart
-        run: |
-          rm -rf traefik-crds
-        if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
-
-      - name: Publish Helm chart
-        uses: stefanprodan/helm-gh-pages@master
-        with:
-          token: ${{ secrets.CHARTS_TOKEN }}
-          charts_dir: .
-          charts_url: https://darkweaver87.github.io/traefik-helm-chart
-          owner: darkweaver87
-          repository: charts
-          branch: master
-          target_dir: traefik
-          index_dir: .
-          commit_username: traefiker
-          commit_email: 30906710+traefiker@users.noreply.github.com
-        if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
-
-      - name: Publish Helm chart to the ghcr.io registry
-        uses: appany/helm-oci-chart-releaser@v0.4.2
-        with:
-          name: traefik
-          repository: darkweaver87/helm
-          tag: ${{ steps.chart_version.outputs.CHART_VERSION }}
-          path: ./traefik
-          registry: ghcr.io
-          registry_username: darkweaver87
-          registry_password: ${{ secrets.GHCR_TOKEN }}
-        if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
+#  traefik:
+#    # needs: test
+#    runs-on: ubuntu-latest
+#    steps:
+#
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0
+#
+#      - name: Configure Git
+#        run: |
+#          git config user.name "$GITHUB_ACTOR"
+#          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+#          git config --global --add safe.directory /charts
+#
+#      - name: Copy LICENSE, EXAMPLES.md and README.md for packaging
+#        run: |
+#          cp ./README.md ./traefik/README.md
+#          cp ./EXAMPLES.md ./traefik/EXAMPLES.md
+#          cp ./LICENSE ./traefik/LICENSE
+#
+#      - name: Generate default static install
+#        run: |
+#          kustomize build traefik-crds > traefik.yaml
+#          helm template traefik ./traefik -n traefik >> traefik.yaml
+#
+#      - name: Get chart version
+#        id: chart_version
+#        run: |
+#          echo "CHART_VERSION=$(cat traefik/Chart.yaml | awk -F"[ ',]+" '/version:/{print $2}')" >> $GITHUB_OUTPUT
+#
+#      - name: Check if tag exists
+#        id: tag_exists
+#        run: |
+#          TAG_EXISTS=false
+#          if git tag -l | grep "${{ env.tag_prefix }}${{ steps.chart_version.outputs.CHART_VERSION }}" > /dev/null ; then
+#              TAG_EXISTS=true
+#          fi
+#          git tag -l
+#          echo TAG_EXISTS=$TAG_EXISTS
+#          echo TAG_EXISTS=$TAG_EXISTS >> $GITHUB_OUTPUT
+#
+#      - name: Tag release
+#        id: tag_version
+#        uses: mathieudutour/github-tag-action@v6.2
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          custom_tag: ${{ steps.chart_version.outputs.CHART_VERSION }}
+#          tag_prefix: ${{ env.tag_prefix }}
+#        if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
+#
+#      - name: Update CHANGELOG
+#        id: changelog
+#        uses: requarks/changelog-action@v1
+#        with:
+#          token: ${{ github.token }}
+#          tag: ${{ steps.tag_version.outputs.new_tag }}
+#          excludeScopes: crds,crds-release
+#        if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
+#
+#      - name: Create release
+#        uses: ncipollo/release-action@v1
+#        with:
+#          tag: ${{ steps.tag_version.outputs.new_tag }}
+#          name: ${{ steps.tag_version.outputs.new_tag }}
+#          body: ${{ steps.changelog.outputs.changes }}
+#          prerelease: ${{ contains(steps.chart_version.outputs.CHART_VERSION, '-') }}
+#          artifacts: "traefik.yaml"
+#        if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
+#
+#      # avoid helm-gh-pages to push both charts
+#      - name: Delete traefik-crds chart
+#        run: |
+#          rm -rf traefik-crds
+#        if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
+#
+#      - name: Publish Helm chart
+#        uses: stefanprodan/helm-gh-pages@master
+#        with:
+#          token: ${{ secrets.CHARTS_TOKEN }}
+#          charts_dir: .
+#          charts_url: https://darkweaver87.github.io/traefik-helm-chart
+#          owner: darkweaver87
+#          repository: charts
+#          branch: master
+#          target_dir: traefik
+#          index_dir: .
+#          commit_username: traefiker
+#          commit_email: 30906710+traefiker@users.noreply.github.com
+#        if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
+#
+#      - name: Publish Helm chart to the ghcr.io registry
+#        uses: appany/helm-oci-chart-releaser@v0.4.2
+#        with:
+#          name: traefik
+#          repository: darkweaver87/helm
+#          tag: ${{ steps.chart_version.outputs.CHART_VERSION }}
+#          path: ./traefik
+#          registry: ghcr.io
+#          registry_username: darkweaver87
+#          registry_password: ${{ secrets.GHCR_TOKEN }}
+#        if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
 
   traefik-crds:
     # needs: test
@@ -153,6 +153,13 @@ jobs:
           echo TAG_EXISTS=$TAG_EXISTS
           echo TAG_EXISTS=$TAG_EXISTS >> $GITHUB_OUTPUT
 
+      - name: Get Previous tag
+        id: previous_tag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        with:
+          prefix: crds_v
+        if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
+
       - name: Tag release
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.2
@@ -167,8 +174,10 @@ jobs:
         uses: requarks/changelog-action@v1
         with:
           token: ${{ github.token }}
-          tag: ${{ github.ref_name }}
+          fromTag: ${{ steps.previous_tag.outputs.tag }}
+          toTag: ${{ steps.tag_version.outputs.new_tag }}
           excludeScopes: traefik,traefik-release
+          writeToFile: false
         if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
 
       - name: Create release
