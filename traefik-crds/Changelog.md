@@ -1,6 +1,8 @@
 # Change Log
 
-## Next Release  ![Kubernetes: >=1.22.0-0](https://img.shields.io/static/v1?label=Kubernetes&message=%3E%3D1.22.0-0&color=informational&logo=kubernetes) ![Helm: v3](https://img.shields.io/static/v1?label=Helm&message=v3&color=informational&logo=helm)
+## 0.0.2  ![Kubernetes: >=1.22.0-0](https://img.shields.io/static/v1?label=Kubernetes&message=%3E%3D1.22.0-0&color=informational&logo=kubernetes) ![Helm: v3](https://img.shields.io/static/v1?label=Helm&message=v3&color=informational&logo=helm)
+
+**Release date:** 2024-10-18
 
 * fix: use Files.Glob
 * fix: schemas
@@ -8,6 +10,7 @@
 * fix: CI
 * fix: CI
 * fix(crds): test
+* chore(release): 🚀 publish v0.0.2
 
 ### Default value changes
 
