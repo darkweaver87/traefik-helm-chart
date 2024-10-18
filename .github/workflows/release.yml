@@ -60,7 +60,7 @@ jobs:
         id: previous_tag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
         with:
-          prefix: crds_v
+          prefix: v
         if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
 
       - name: Tag release
@@ -178,23 +178,46 @@ jobs:
           tag_prefix: ${{ env.crds_tag_prefix }}
         if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
 
-      - name: Update CHANGELOG
+      - name: Build Changelog
         id: changelog
-        uses: requarks/changelog-action@v1
+        uses: mikepenz/release-changelog-builder-action@v5
         with:
-          token: ${{ github.token }}
           fromTag: ${{ steps.previous_tag.outputs.tag }}
           toTag: ${{ steps.tag_version.outputs.new_tag }}
-          excludeScopes: traefik,traefik-release,ci
-          writeToFile: false
-        if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
+          configurationJson: |
+            {
+              "template": "#{{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n#{{UNCATEGORIZED}}\n</details>",
+              "categories": [
+                {
+                    "title": "## 💬 Other",
+                    "labels": ["other"]
+                },
+                {
+                    "title": "## 📦 Dependencies",
+                    "labels": ["dependencies"]
+                }
+              ]
+            }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      #- name: Update CHANGELOG
+      #  id: changelog
+      #  uses: requarks/changelog-action@v1
+      #  with:
+      #    token: ${{ github.token }}
+      #    fromTag: ${{ steps.previous_tag.outputs.tag }}
+      #    toTag: ${{ steps.tag_version.outputs.new_tag }}
+      #    excludeScopes: traefik,traefik-release,ci
+      #    writeToFile: false
+      #  if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
 
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.changelog.outputs.changes }}
+          body: ${{ steps.changelog.outputs.changelog }}
           prerelease: ${{ contains(steps.chart_version.outputs.CHART_VERSION, '-') }}
         if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
 
