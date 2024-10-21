@@ -6,7 +6,7 @@
 
 * feat(hub): introduce feature (#9)
 * feat(deployment)!: introduce a breaking change (#10)
-* chore(traefik-release): 🚀 publish v34.0.0
+* chore(traefik-release): 🚀 publish v34.0.0 (#11)
 * chore(crds-release): 🚀 publish v0.0.2 (#7)
 
 
