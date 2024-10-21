@@ -2,7 +2,7 @@ apiVersion: v2
 name: traefik
 description: A Traefik based Kubernetes ingress controller
 type: application
-version: 34.0.0
+version: 34.0.1
 # renovate: image=traefik
 appVersion: v3.1.6
 kubeVersion: ">=1.22.0-0"
@@ -25,26 +25,5 @@ maintainers:
 icon: https://raw.githubusercontent.com/traefik/traefik/v2.3/docs/content/assets/img/traefik.logo.png
 annotations:
   artifacthub.io/changes: |
-    - "feat(hub): introduce feature (#9)"
-    - "feat(deployment)!: introduce a breaking change (#10)"
-    - "chore(traefik-release): 🚀 publish v34.0.0 (#11)"
-    - "chore(crds-release): 🚀 publish v0.0.2 (#7)"
-    - "fix: use correct children indentation for logs.access.filters"
-    - "fix: update CI"
-    - "fix: schemas"
-    - "fix: remove dependency while not published"
-    - "fix: add hub only when api management is enabled"
-    - "fix: CI"
-    - "fix(schema): :bug: targetPort can also be a string"
-    - "fix(certificateResolvers)!: :boom: :bug: use same syntax in Chart and in Traefik"
-    - "fix(Traefik Hub): RBAC for distributedAcme"
-    - "fix(Kubernetes Ingress)!: :boom: :sparkles: enable publishedService by default"
-    - "fix(Gateway API): :bug: add missing required RBAC for v3.2 with experimental Channel"
-    - "fix(Env Variables)!: allow extending env without overwrite"
-    - "feat: :package: add separated chart for CRDs"
-    - "feat(traefik): test"
-    - "feat(deps): update traefik docker tag to v3.1.6"
-    - "feat(Gateway API): :sparkles: add infrastructure in the values"
-    - "chore: allow TRACE log level"
-    - "chore(traefik-release): 🚀 publish v33.0.0 (#6)"
-    - "Update topology spread constraints comments"
+    - "chore(traefik-release): 🚀 publish v34.0.1"
+    - "chore(crds-release): 🚀 publish v0.0.3 (#12)"
