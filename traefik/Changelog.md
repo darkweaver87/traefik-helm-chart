@@ -1,8 +1,13 @@
 # Change Log
 
-## Next Release  ![AppVersion: v3.1.6](https://img.shields.io/static/v1?label=AppVersion&message=v3.1.6&color=success&logo=) ![Kubernetes: >=1.22.0-0](https://img.shields.io/static/v1?label=Kubernetes&message=%3E%3D1.22.0-0&color=informational&logo=kubernetes) ![Helm: v3](https://img.shields.io/static/v1?label=Helm&message=v3&color=informational&logo=helm)
+## 34.0.0  ![AppVersion: v3.1.6](https://img.shields.io/static/v1?label=AppVersion&message=v3.1.6&color=success&logo=) ![Kubernetes: >=1.22.0-0](https://img.shields.io/static/v1?label=Kubernetes&message=%3E%3D1.22.0-0&color=informational&logo=kubernetes) ![Helm: v3](https://img.shields.io/static/v1?label=Helm&message=v3&color=informational&logo=helm)
 
-* chore(crds-release): 🚀 publish v0.0.2
+**Release date:** 2024-10-21
+
+* feat(hub): introduce feature (#9)
+* feat(deployment)!: introduce a breaking change (#10)
+* chore(traefik-release): 🚀 publish v34.0.0
+* chore(crds-release): 🚀 publish v0.0.2 (#7)
 
 
 ## 33.0.0  ![AppVersion: v3.1.6](https://img.shields.io/static/v1?label=AppVersion&message=v3.1.6&color=success&logo=) ![Kubernetes: >=1.22.0-0](https://img.shields.io/static/v1?label=Kubernetes&message=%3E%3D1.22.0-0&color=informational&logo=kubernetes) ![Helm: v3](https://img.shields.io/static/v1?label=Helm&message=v3&color=informational&logo=helm)
