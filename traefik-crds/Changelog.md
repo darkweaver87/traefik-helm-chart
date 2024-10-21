@@ -1,12 +1,27 @@
 # Change Log
 
+## 0.0.5  ![Kubernetes: >=1.22.0-0](https://img.shields.io/static/v1?label=Kubernetes&message=%3E%3D1.22.0-0&color=informational&logo=kubernetes) ![Helm: v3](https://img.shields.io/static/v1?label=Helm&message=v3&color=informational&logo=helm)
+
+**Release date:** 2024-10-21
+
+* fix(crds): pouet (#16)
+* chore(crds-release): 🚀 publish v0.0.5
+
+
+## 0.0.4  ![Kubernetes: >=1.22.0-0](https://img.shields.io/static/v1?label=Kubernetes&message=%3E%3D1.22.0-0&color=informational&logo=kubernetes) ![Helm: v3](https://img.shields.io/static/v1?label=Helm&message=v3&color=informational&logo=helm)
+
+**Release date:** 2024-10-21
+
+* chore(crds-release): 🚀 publish v0.0.4
+
+
 ## 0.0.3  ![Kubernetes: >=1.22.0-0](https://img.shields.io/static/v1?label=Kubernetes&message=%3E%3D1.22.0-0&color=informational&logo=kubernetes) ![Helm: v3](https://img.shields.io/static/v1?label=Helm&message=v3&color=informational&logo=helm)
 
 **Release date:** 2024-10-21
 
 * fix(crds): big a bug (#8)
 * chore(traefik-release): 🚀 publish v34.0.0 (#11)
-* chore(crds-release): 🚀 publish v0.0.3
+* chore(crds-release): 🚀 publish v0.0.3 (#12)
 
 
 ## 0.0.2  ![Kubernetes: >=1.22.0-0](https://img.shields.io/static/v1?label=Kubernetes&message=%3E%3D1.22.0-0&color=informational&logo=kubernetes) ![Helm: v3](https://img.shields.io/static/v1?label=Helm&message=v3&color=informational&logo=helm)
