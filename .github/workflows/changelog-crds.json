@@ -1,14 +1,46 @@
 {
   "categories": [
     {
-      "title": "## 🚀 Features",
+      "title": "## :boom: Breaking changes",
       "rules": [
         {
-          "pattern": "feat\\(crds\\):.*",
+          "pattern": ".*\\(crds(-release)?).*\\)!:.*",
+          "on_property": "title",
+          "flags": "gu"
+        }
+      ]
+    },
+    {
+      "title": "## :rocket: Features",
+      "rules": [
+        {
+          "pattern": "feat\\(crds(-release)?\\):.*",
+          "on_property": "title",
+          "flags": "gu"
+        }
+      ]
+    },
+    {
+      "title": "## :bug: Bug Fixes",
+      "rules": [
+        {
+          "pattern": "fix\\(crds(-release)?\\):.*",
+          "on_property": "title",
+          "flags": "gu"
+        }
+      ]
+    },
+    {
+      "title": "## :package: Other",
+      "rules": [
+        {
+          "pattern": "chore\\(crds(-release)?\\):.*",
           "on_property": "title",
           "flags": "gu"
         }
       ]
     }
-  ]
+  ],
+  "pr_template": "- ${{TITLE}} #${{NUMBER}} by @#{{AUTHOR}}",
+  "empty_template": "- no changes"
 }

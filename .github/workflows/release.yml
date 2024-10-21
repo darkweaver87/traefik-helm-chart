@@ -76,7 +76,8 @@ jobs:
         id: changelog
         uses: mikepenz/release-changelog-builder-action@v5
         with:
-          fromTag: ${{ steps.previous_tag.outputs.tag }}
+          mode: "HYBRID"
+          fromTag: v30.0.0 #${{ steps.previous_tag.outputs.tag }}
           toTag: ${{ steps.tag_version.outputs.new_tag }}
           configuration: ".github/workflows/changelog-traefik.json"
         env:
@@ -192,6 +193,7 @@ jobs:
         id: changelog
         uses: mikepenz/release-changelog-builder-action@v5
         with:
+          mode: "HYBRID"
           fromTag: ${{ steps.previous_tag.outputs.tag }}
           toTag: ${{ steps.tag_version.outputs.new_tag }}
           configuration: ".github/workflows/changelog-crds.json"
