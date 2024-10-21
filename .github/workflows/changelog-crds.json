@@ -1,0 +1,14 @@
+{
+  "categories": [
+    {
+      "title": "## 🚀 Features",
+      "rules": [
+        {
+          "pattern": "feat\\(crds\\):.*",
+          "on_property": "title",
+          "flags": "gu"
+        }
+      ]
+    }
+  ]
+}

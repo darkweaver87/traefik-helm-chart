@@ -1,0 +1,14 @@
+{
+  "categories": [
+    {
+      "title": "## 🚀 Features",
+      "rules": [
+        {
+          "pattern": "feat\\(traefik\\):.*",
+          "on_property": "title",
+          "flags": "gu"
+        }
+      ]
+    }
+  ]
+}

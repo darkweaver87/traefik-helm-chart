@@ -78,6 +78,7 @@ jobs:
         with:
           fromTag: ${{ steps.previous_tag.outputs.tag }}
           toTag: ${{ steps.tag_version.outputs.new_tag }}
+          configuration: ".github/workflows/changelog-traefik.json"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -193,6 +194,7 @@ jobs:
         with:
           fromTag: ${{ steps.previous_tag.outputs.tag }}
           toTag: ${{ steps.tag_version.outputs.new_tag }}
+          configuration: ".github/workflows/changelog-crds.json"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
