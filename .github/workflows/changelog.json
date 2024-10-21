@@ -42,7 +42,7 @@
       ]
     }
   ],
-  "pr_template": "- ${{TITLE}} ##{{NUMBER}}",
+  "pr_template": "- ${{TITLE}} ##{{NUMBER}} by @#{{AUTHOR}}",
   "empty_template": "- no changes",
   "transformers": [
     {
