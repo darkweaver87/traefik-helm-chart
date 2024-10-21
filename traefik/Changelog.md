@@ -1,5 +1,10 @@
 # Change Log
 
+## Next Release  ![AppVersion: v3.1.6](https://img.shields.io/static/v1?label=AppVersion&message=v3.1.6&color=success&logo=) ![Kubernetes: >=1.22.0-0](https://img.shields.io/static/v1?label=Kubernetes&message=%3E%3D1.22.0-0&color=informational&logo=kubernetes) ![Helm: v3](https://img.shields.io/static/v1?label=Helm&message=v3&color=informational&logo=helm)
+
+* chore(crds-release): 🚀 publish v0.0.2
+
+
 ## 33.0.0  ![AppVersion: v3.1.6](https://img.shields.io/static/v1?label=AppVersion&message=v3.1.6&color=success&logo=) ![Kubernetes: >=1.22.0-0](https://img.shields.io/static/v1?label=Kubernetes&message=%3E%3D1.22.0-0&color=informational&logo=kubernetes) ![Helm: v3](https://img.shields.io/static/v1?label=Helm&message=v3&color=informational&logo=helm)
 
 **Release date:** 2024-10-21
@@ -21,7 +26,7 @@
 * feat(deps): update traefik docker tag to v3.1.6
 * feat(Gateway API): :sparkles: add infrastructure in the values
 * chore: allow TRACE log level
-* chore(traefik-release): 🚀 publish v33.0.0
+* chore(traefik-release): 🚀 publish v33.0.0 (#6)
 * Update topology spread constraints comments
 
 ### Default value changes

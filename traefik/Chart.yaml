@@ -42,5 +42,5 @@ annotations:
     - "feat(deps): update traefik docker tag to v3.1.6"
     - "feat(Gateway API): :sparkles: add infrastructure in the values"
     - "chore: allow TRACE log level"
-    - "chore(traefik-release): 🚀 publish v33.0.0"
+    - "chore(traefik-release): 🚀 publish v33.0.0 (#6)"
     - "Update topology spread constraints comments"
