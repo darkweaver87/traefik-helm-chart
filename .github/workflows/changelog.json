@@ -1,10 +1,11 @@
 {
+  "template": "## [#{{TO_TAG}}](#{{RELEASE_DIFF}}) (${DATE})\n#{{CHANGELOG}}",
   "categories": [
     {
       "title": "## :boom: Breaking changes",
       "rules": [
         {
-          "pattern": ".*\\((?!crds(-release)?).*\\)!:.*",
+          "pattern": ".*\\((${REGEXP}).*\\)!:.*",
           "on_property": "title",
           "flags": "gu"
         }
@@ -14,7 +15,7 @@
       "title": "## :rocket: Features",
       "rules": [
         {
-          "pattern": "feat\\((?!crds(-release)?).*\\):.*",
+          "pattern": "feat\\((${REGEXP}).*\\):.*",
           "on_property": "title",
           "flags": "gu"
         }
@@ -24,7 +25,7 @@
       "title": "## :bug: Bug fixes",
       "rules": [
         {
-          "pattern": "fix\\((?!crds(-release)?).*\\):.*",
+          "pattern": "fix\\((${REGEXP}).*\\):.*",
           "on_property": "title",
           "flags": "gu"
         }
@@ -34,13 +35,19 @@
       "title": "## :package: Other",
       "rules": [
         {
-          "pattern": "chore\\((?!crds(-release)?).*\\):.*",
+          "pattern": "chore\\((${REGEXP}).*\\):.*",
           "on_property": "title",
           "flags": "gu"
         }
       ]
     }
   ],
-  "pr_template": "- ${{TITLE}} #${{NUMBER}} by @#{{AUTHOR}}",
-  "empty_template": "- no changes"
+  "pr_template": "- ${{TITLE}} ##{{NUMBER}}",
+  "empty_template": "- no changes",
+  "transformers": [
+    {
+      "pattern": "[\\-\\*] (\\[(...|TEST|CI|SKIP)\\])( )?(.+?)\n(.+?[\\-\\*] )(.+)",
+      "target": "- $4\n  - $6"
+    }
+  ]
 }

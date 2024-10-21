@@ -72,14 +72,21 @@ jobs:
           tag_prefix: ${{ env.tag_prefix }}
         if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
 
+      - name: Render changelog configuration
+        env:
+          REGEXP: "?!crds(-release)?"
+        run: |
+          export DATE=$(date +%F); cat .github/workflows/changelog.json | envsubst > /tmp/changelog.json; cat /tmp/changelog.json
+        if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
+
       - name: Build Changelog
         id: changelog
         uses: mikepenz/release-changelog-builder-action@v5
         with:
-          mode: "HYBRID"
-          fromTag: v30.0.0 #${{ steps.previous_tag.outputs.tag }}
+          fromTag: ${{ steps.previous_tag.outputs.tag }}
           toTag: ${{ steps.tag_version.outputs.new_tag }}
-          configuration: ".github/workflows/changelog-traefik.json"
+          configuration: "/tmp/changelog.json"
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -189,14 +196,20 @@ jobs:
           tag_prefix: ${{ env.crds_tag_prefix }}
         if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
 
+      - name: Render changelog configuration
+        env:
+          REGEXP: "crds(-release)?"
+        run: |
+          export DATE=$(date +%F); cat .github/workflows/changelog.json | envsubst > /tmp/changelog.json; cat /tmp/changelog.json
+        if: steps.tag_exists.outputs.TAG_EXISTS == 'false'
+
       - name: Build Changelog
         id: changelog
         uses: mikepenz/release-changelog-builder-action@v5
         with:
-          mode: "HYBRID"
           fromTag: ${{ steps.previous_tag.outputs.tag }}
           toTag: ${{ steps.tag_version.outputs.new_tag }}
-          configuration: ".github/workflows/changelog-crds.json"
+          configuration: "/tmp/changelog.json"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
