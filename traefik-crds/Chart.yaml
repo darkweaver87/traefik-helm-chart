@@ -2,7 +2,7 @@ apiVersion: v2
 name: traefik-crds
 description: A Traefik based Kubernetes ingress controller
 type: application
-version: 0.0.1
+version: 0.0.2
 kubeVersion: ">=1.22.0-0"
 keywords:
   - traefik
@@ -21,5 +21,13 @@ maintainers:
     email: remi.buisson@traefik.io
   - name: jnoordsij
 icon: https://raw.githubusercontent.com/traefik/traefik/v2.3/docs/content/assets/img/traefik.logo.png
+annotations:
   artifacthub.io/changes: |
-    - "feat: :package: add separated chart for CRDs"
+    - "fix: use Files.Glob"
+    - "fix: schemas"
+    - "fix: remove dependency while not published"
+    - "fix: CI"
+    - "fix: CI"
+    - "chore(traefik-release): 🚀 publish v33.0.0 (#6)"
+    - "chore(crds-release): 🚀 publish v0.0.2"
+    - "chore(crds): test4"
