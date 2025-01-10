@@ -9,3 +9,4 @@
 {{- if eq (.Values.gatewayAPI | toString) "true" -}}
 {{ include "traefik-crds.render-crds" (dict "scope" . "path" "crds-files/gatewayAPI/*.yaml") }}
 {{- end }}
+#
