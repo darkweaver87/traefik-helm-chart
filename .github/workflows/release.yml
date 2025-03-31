@@ -14,7 +14,8 @@ jobs:
     uses: "traefik/traefik-helm-chart/.github/workflows/test.yml@master"
 
   traefik:
-    needs: test
+    if: ${{ always() && contains(needs.test.result, 'success') }}
+    needs: [test, traefik-crds ]
     runs-on: ubuntu-latest
     steps:
 
