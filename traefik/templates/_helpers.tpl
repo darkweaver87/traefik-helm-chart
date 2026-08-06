@@ -527,6 +527,26 @@ Check if using old localPlugin hostPath structure (for deprecation warning)
 {{- $mem }}
 {{- end }}
 
+{{- /* Returns a Go duration such as 1h30m in seconds, or an empty string when it cannot be
+       parsed. Negative durations are reported as unparseable. */}}
+{{- define "traefik.convertDurationToSeconds" }}
+  {{- $duration := . | toString -}}
+  {{- $factors := dict "ns" 1e-9 "us" 1e-6 "µs" 1e-6 "ms" 1e-3 "s" 1.0 "m" 60.0 "h" 3600.0 -}}
+  {{- $term := "[0-9]+(\\.[0-9]+)?(ns|us|µs|ms|s|m|h)" -}}
+  {{- $seconds := "" -}}
+  {{- if eq $duration "0" -}}
+    {{- $seconds = 0.0 -}}
+  {{- else if regexMatch (printf "^(%s)+$" $term) $duration -}}
+    {{- $total := 0.0 -}}
+    {{- range $match := regexFindAll $term $duration -1 -}}
+      {{- $unit := regexFind "[a-zµ]+$" $match -}}
+      {{- $total = addf $total (mulf (trimSuffix $unit $match | float64) (get $factors $unit)) -}}
+    {{- end -}}
+    {{- $seconds = $total -}}
+  {{- end -}}
+{{- $seconds }}
+{{- end }}
+
 {{- define "traefik.gomemlimit" }}
 {{- $percentage := .percentage -}}
 {{- $memlimitBytes := include "traefik.convertMemToBytes" .memory | mulf $percentage -}}

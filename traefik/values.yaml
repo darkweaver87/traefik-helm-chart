@@ -1321,7 +1321,7 @@ hub:  # @schema additionalProperties: false
     openApi:
       # -- When set to true, it will only accept paths and methods that are explicitly defined in its OpenAPI specification
       validateRequestMethodAndPath: false
-      # -- Interval to refresh the OpenAPI specification, as a Go duration. When empty, the provider default (`0`, disabled) applies.
+      # -- Interval to refresh the OpenAPI specification, as a Go duration. Must be at least `1m`. When empty, the Traefik Hub default (`1m`) applies.
       refreshInterval: ""
 
   mcpgateway:
