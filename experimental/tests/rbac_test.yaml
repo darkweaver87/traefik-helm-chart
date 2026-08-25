@@ -123,6 +123,18 @@ tests:
             resources: [aiservices]
             verbs: [get, list, watch]
 
+  - it: enabling Hub APIM grants configmaps write (traefik-helm-chart#1930)
+    template: clusterrole.yaml
+    set:
+      traefik.hub.apimanagement: {}
+    asserts:
+      - contains:
+          path: rules
+          content:
+            apiGroups: [""]
+            resources: [configmaps]
+            verbs: [get, list, watch, create, patch, delete]
+
   - it: overlapping resource grants merge cleanly across layers
     template: clusterrole.yaml
     set:
