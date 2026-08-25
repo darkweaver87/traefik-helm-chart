@@ -2,9 +2,9 @@ apiVersion: v2
 name: traefik
 description: A Traefik based Kubernetes ingress controller
 type: application
-version: 41.0.0
+version: 41.3.0
 # renovate: image=traefik
-appVersion: v3.7.5
+appVersion: v3.7.11
 kubeVersion: '>=1.25.0-0'
 keywords:
   - traefik
@@ -23,17 +23,13 @@ maintainers:
 icon: https://raw.githubusercontent.com/traefik/traefik/master/docs/content/assets/img/traefik.logo.png
 annotations:
   traefik.io/proxy-min-version: v3.6.0
-  traefik.io/proxy-max-version: v3.7.5
+  traefik.io/proxy-max-version: v3.7.11
   traefik.io/hub-min-version: v3.19.3
-  traefik.io/hub-max-version: v3.20.4
+  traefik.io/hub-max-version: v3.20.11
   artifacthub.io/changes: |
-    - "fix(provider): :bug: emit kubernetesIngressNGINX publishService for external service"
-    - "fix(notes): :memo: use traefik.image-name so NOTES match deployed image"
-    - "fix(logs)!: align syntax with upstream (#1887)"
-    - "fix(deployment): omit spec.replicas when replicas is null"
-    - "feat(version): :sparkles: relax max-version guard to warn on minor/patch, fail only on major mismatch"
-    - "feat(providers.file)!: switch content to an object"
-    - "feat(hub): :sparkles: install out-of-box with only hub.token set"
-    - "feat(deps): update traefik docker tag to v3.7.5"
-    - "ci(renovate): restore update on appVersion"
-    - "chore(release): publish 41.0.0"
+    - kind: added
+      description: "feat: add new options for traefik v3.7.11"
+    - kind: added
+      description: "feat(deps): ✨ update traefik-hub to v3.20.11"
+    - kind: added
+      description: "feat(deps): update traefik to v3.7.11 and traefik-hub to v3.20.10"
