@@ -230,7 +230,7 @@
     {{ fail "ERROR: hub.hardened is only available for Traefik Hub >= v3.21.0-ea, set image.tag accordingly." }}
   {{- end }}
 
-  {{- if and $.Values.hub.apimanagement.openApi.refreshInterval (semverCompare "<v3.21.0-0" $hubVersion) }}
+  {{- if and $.Values.hub.apimanagement.enabled $.Values.hub.apimanagement.openApi.refreshInterval (semverCompare "<v3.21.0-0" $hubVersion) }}
     {{ fail "ERROR: hub.apimanagement.openApi.refreshInterval is only available for Traefik Hub >= v3.21.0." }}
   {{- end }}
 

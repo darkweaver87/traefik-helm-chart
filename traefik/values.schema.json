@@ -774,7 +774,7 @@
                             "type": "object",
                             "properties": {
                                 "refreshInterval": {
-                                    "description": "Interval to refresh the OpenAPI specification, as a Go duration. When empty, the provider default (`0`, disabled) applies.",
+                                    "description": "Interval to refresh the OpenAPI specification, as a Go duration. Must be at least `1m`. When empty, the Traefik Hub default (`1m`) applies.",
                                     "type": "string"
                                 },
                                 "validateRequestMethodAndPath": {
