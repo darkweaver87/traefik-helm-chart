@@ -1331,6 +1331,9 @@ hub:  # @schema additionalProperties: false
     openApi:
       # -- When set to true, it will only accept paths and methods that are explicitly defined in its OpenAPI specification
       validateRequestMethodAndPath: false
+      # -- Interval to refresh the OpenAPI specification, as a Go duration. Must be at least `1m`.
+      # @default -- `1m` when unset
+      refreshInterval: ""
 
   mcpgateway:
     # -- Set to true in order to enable AI MCP Gateway. Requires a valid license token.
