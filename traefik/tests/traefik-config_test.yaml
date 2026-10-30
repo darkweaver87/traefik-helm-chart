@@ -940,6 +940,19 @@ tests:
       - notContains:
           path: spec.template.spec.containers[0].args
           content: "--entryPoints.web.forwardedHeaders.notAppendXForwardedFor=true"
+  - it: should have global aliasHeadersStrategy arg when specified in values.yaml
+    set:
+      global:
+        aliasHeadersStrategy: reject
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].args
+          content: "--global.aliasHeadersStrategy=reject"
+  - it: should not have global aliasHeadersStrategy arg by default
+    asserts:
+      - notContains:
+          path: spec.template.spec.containers[0].args
+          content: "--global.aliasHeadersStrategy=keep"
   - it: should have multiple transport configuration args when specified in values.yaml for port
     set:
       ports:

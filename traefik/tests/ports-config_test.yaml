@@ -251,6 +251,38 @@ tests:
           path: spec.template.spec.containers[0].args
           content: "--entryPoints.web.http.maxHeaderBytes=2097152"
 
+  - it: should be possible to set MaxHeaderValueCount on entrypoint
+    template: deployment.yaml
+    set:
+      ports:
+        web:
+          http:
+            maxHeaderValueCount: 1000
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].args
+          content: "--entryPoints.web.http.maxHeaderValueCount=1000"
+
+  - it: should be possible to set MaxHeaderValueCount on uplink entrypoint
+    template: deployment.yaml
+    set:
+      image:
+        registry: ghcr.io
+        repository: traefik/traefik-hub
+        tag: v3.21.7
+      hub:
+        token: xxx
+      ports:
+        multicluster:
+          port: 9443
+          uplink: true
+          http:
+            maxHeaderValueCount: 1000
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].args
+          content: "--hub.uplinkEntryPoints.multicluster.http.maxHeaderValueCount=1000"
+
   - it: should be possible to use a different containerPort
     set:
       ports:

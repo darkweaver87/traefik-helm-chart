@@ -29,6 +29,33 @@ tests:
           path: spec.template.spec.containers[0].args
           content: "--hub.providers.ec2"
 
+  - it: should be possible to set the ec2 session token
+    set:
+      image:
+        tag: v3.21.7
+      hub:
+        providers:
+          ec2:
+            enabled: true
+            accessKeyID: "AKIAEXAMPLE"
+            secretAccessKey: "secret"
+            sessionToken: "token"
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].args
+          content: "--hub.providers.ec2.sessionToken=token"
+
+  - it: should not set the ec2 session token by default
+    set:
+      hub:
+        providers:
+          ec2:
+            enabled: true
+    asserts:
+      - notContains:
+          path: spec.template.spec.containers[0].args
+          content: "--hub.providers.ec2.sessionToken="
+
   - it: should configure ec2 when enabled
     set:
       hub:
